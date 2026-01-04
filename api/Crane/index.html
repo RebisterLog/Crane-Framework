@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">Crane | Crane-Framework</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://RebisterLog.github.io/Crane-Framework/api/Crane"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="Crane | Crane-Framework"><meta data-rh="true" name="description" content="The main Crane framework class. Provides a service and component system for Roblox development.
+
+Crane allows you to:
+- Create and manage services that initialize and start in a controlled order
+- Create and manage components that can be attached to Roblox instances
+- Automatically instantiate components based on CollectionService tags
+- Access utility libraries (Promise, Signal, Janitor) through convenient shortcuts"><meta data-rh="true" property="og:description" content="The main Crane framework class. Provides a service and component system for Roblox development.
+
+Crane allows you to:
+- Create and manage services that initialize and start in a controlled order
+- Create and manage components that can be attached to Roblox instances
+- Automatically instantiate components based on CollectionService tags
+- Access utility libraries (Promise, Signal, Janitor) through convenient shortcuts"><link data-rh="true" rel="canonical" href="https://RebisterLog.github.io/Crane-Framework/api/Crane"><link data-rh="true" rel="alternate" href="https://RebisterLog.github.io/Crane-Framework/api/Crane" hreflang="en"><link data-rh="true" rel="alternate" href="https://RebisterLog.github.io/Crane-Framework/api/Crane" hreflang="x-default"><link rel="stylesheet" href="/Crane-Framework/assets/css/styles.7a4bdbad.css">
+<script src="/Crane-Framework/assets/js/runtime~main.f97ab494.js" defer="defer"></script>
+<script src="/Crane-Framework/assets/js/main.4f16e1db.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,t("light"))}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Crane-Framework/"><b class="navbar__title text--truncate">Crane-Framework</b></a><a class="navbar__item navbar__link" href="/Crane-Framework/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Crane-Framework/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/RebisterLog/Crane-Framework" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/Crane-Framework/api/Crane">Framework</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/Crane-Framework/api/Crane">​Crane</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Crane-Framework/api/Component">Classes</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Crane-Framework/api/Signal">Utilities</a></div></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Crane</span></h1><div class="luaClassTags_EipM"></div><div>
+<p>The main Crane framework class. Provides a service and component system for Roblox development.</p>
+<p>Crane allows you to:</p>
+<ul>
+  <li>Create and manage services that initialize and start in a controlled order</li>
+  <li>Create and manage components that can be attached to Roblox instances</li>
+  <li>Automatically instantiate components based on CollectionService tags</li>
+  <li>Access utility libraries (Promise, Signal, Janitor) through convenient shortcuts</li>
+</ul>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="IsStarted"><code style="text-decoration:none">IsStarted</code><a href="#IsStarted" class="hash-link" aria-label="Direct link to IsStarted" title="Direct link to IsStarted">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L65"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->.<!-- -->IsStarted<!-- -->:<!-- --> </code> <code class="blue_P4bS">boolean</code></div><div>
+<p>Flag indicating whether the framework has been started.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Services"><code style="text-decoration:none">Services</code><a href="#Services" class="hash-link" aria-label="Direct link to Services" title="Direct link to Services">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L73"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->.<!-- -->Services<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Service">Service</a></code><code class="purple_ieR2">}</code></div><div>
+<p>Dictionary of all registered services, indexed by service name.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Components"><code style="text-decoration:none">Components</code><a href="#Components" class="hash-link" aria-label="Direct link to Components" title="Direct link to Components">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L81"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->.<!-- -->Components<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#Component">Component</a></code><code class="purple_ieR2">}</code></div><div>
+<p>Dictionary of all registered components, indexed by component name.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="InstantiatedComponents"><code style="text-decoration:none">InstantiatedComponents</code><a href="#InstantiatedComponents" class="hash-link" aria-label="Direct link to InstantiatedComponents" title="Direct link to InstantiatedComponents">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L89"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->.<!-- -->InstantiatedComponents<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="green_DgR4">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#Component">Component</a></code><code class="green_DgR4">}</code><code class="purple_ieR2">}</code></div><div>
+<p>Dictionary mapping instance IDs to their instantiated components.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="TrackedTags"><code style="text-decoration:none">TrackedTags</code><a href="#TrackedTags" class="hash-link" aria-label="Direct link to TrackedTags" title="Direct link to TrackedTags">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L97"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->.<!-- -->TrackedTags<!-- -->:<!-- --> </code> <code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">}</code></div><div>
+<p>Dictionary mapping CollectionService tags to component names for automatic component instantiation.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Signal"><code style="text-decoration:none">Signal</code><a href="#Signal" class="hash-link" aria-label="Direct link to Signal" title="Direct link to Signal">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L105"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->.<!-- -->Signal<!-- -->:<!-- --> </code> <code class="blue_P4bS">any</code></div><div>
+<p>Signal library shortcut for convenience.</p>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Start"><code style="text-decoration:none">Start</code><a href="#Start" class="hash-link" aria-label="Direct link to Start" title="Direct link to Start">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L154"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->:</code><code class="green_DgR4">Start</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Starts the framework. This method initializes all services in order, then starts them, and finally sets up automatic component tracking for tagged instances.</p>
+<p><strong>Important:</strong> Services and components must be created before starting the framework!</p>
+<pre class="language-lua"><code class="language-lua">	<span class="token keyword">local</span> Crane <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span>PATH_TO_FRAMEWORK<span class="token punctuation">)</span>
+
+	Crane<span class="token punctuation">:</span><span class="token function">AddServices</span><span class="token punctuation">(</span><span class="token punctuation">{</span>FOLDER<span class="token punctuation">,</span> FOLDER<span class="token punctuation">...</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+	Crane<span class="token punctuation">:</span><span class="token function">AddComponents</span><span class="token punctuation">(</span><span class="token punctuation">{</span>FOLDER<span class="token punctuation">,</span> FOLDER<span class="token punctuation">...</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+	Crane<span class="token punctuation">:</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Throws an error if the framework has already been started</td><td></td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="AddServices"><code style="text-decoration:none">AddServices</code><a href="#AddServices" class="hash-link" aria-label="Direct link to AddServices" title="Direct link to AddServices">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L215"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->:</code><code class="green_DgR4">AddServices</code><code>(</code><div class="inset_uKQm"><div><code>parents<!-- -->: </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">}</code><code>,</code></div><div><code>descendants<!-- -->: </code><code class="blue_P4bS">boolean?</code></div></div><code>) → </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Service">Service</a></code><code class="purple_ieR2">}</code></div><div>
+<p>Scans the provided folders/instances for ModuleScripts containing services and automatically registers them in Crane.</p>
+<p>The parameter <code>descendants</code> is optional and determines whether to search for services in descendants of the parent instances.</p>
+<pre class="language-lua"><code class="language-lua">Crane<span class="token punctuation">:</span><span class="token function">AddServices</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	game<span class="token punctuation">:</span><span class="token function">GetService</span><span class="token punctuation">(</span><span class="token string">"ReplicatedStorage"</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">WaitForChild</span><span class="token punctuation">(</span><span class="token string">"Services"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	game<span class="token punctuation">:</span><span class="token function">GetService</span><span class="token punctuation">(</span><span class="token string">"ReplicatedStorage"</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">WaitForChild</span><span class="token punctuation">(</span><span class="token string">"Services"</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">WaitForChild</span><span class="token punctuation">(</span><span class="token string">"SubServices"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- Search in descendants as well</span>
+Crane<span class="token punctuation">:</span><span class="token function">AddServices</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	game<span class="token punctuation">:</span><span class="token function">GetService</span><span class="token punctuation">(</span><span class="token string">"ReplicatedStorage"</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">WaitForChild</span><span class="token punctuation">(</span><span class="token string">"Services"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">true</span><span class="token punctuation">)</span>
+</code></pre>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Throws an error if parents is not a table or is empty</td><td></td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="AddComponents"><code style="text-decoration:none">AddComponents</code><a href="#AddComponents" class="hash-link" aria-label="Direct link to AddComponents" title="Direct link to AddComponents">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L257"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->:</code><code class="green_DgR4">AddComponents</code><code>(</code><div class="inset_uKQm"><div><code>parents<!-- -->: </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">}</code><code>,</code></div><div><code>descendants<!-- -->: </code><code class="blue_P4bS">boolean?</code></div></div><code>) → </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#Component">Component</a></code><code class="purple_ieR2">}</code></div><div>
+<p>Scans the provided folders/instances for ModuleScripts containing components and automatically registers them in Crane.</p>
+<p>The parameter <code>descendants</code> is optional and determines whether to search for components in descendants of the parent instances.</p>
+<pre class="language-lua"><code class="language-lua">Crane<span class="token punctuation">:</span><span class="token function">AddComponents</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	game<span class="token punctuation">:</span><span class="token function">GetService</span><span class="token punctuation">(</span><span class="token string">"ReplicatedStorage"</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">WaitForChild</span><span class="token punctuation">(</span><span class="token string">"Components"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	game<span class="token punctuation">:</span><span class="token function">GetService</span><span class="token punctuation">(</span><span class="token string">"ReplicatedStorage"</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">WaitForChild</span><span class="token punctuation">(</span><span class="token string">"Components"</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">WaitForChild</span><span class="token punctuation">(</span><span class="token string">"SubComponents"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- Search in descendants as well</span>
+Crane<span class="token punctuation">:</span><span class="token function">AddComponents</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	game<span class="token punctuation">:</span><span class="token function">GetService</span><span class="token punctuation">(</span><span class="token string">"ReplicatedStorage"</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">WaitForChild</span><span class="token punctuation">(</span><span class="token string">"Components"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">true</span><span class="token punctuation">)</span>
+</code></pre>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Throws an error if parents is not a table or is empty</td><td></td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="CreateService"><code style="text-decoration:none">CreateService</code><a href="#CreateService" class="hash-link" aria-label="Direct link to CreateService" title="Direct link to CreateService">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L303"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->:</code><code class="green_DgR4">CreateService</code><code>(</code><code>options<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Service#ServiceDef">ServiceDef</a></code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Service">Service</a></code></div><div>
+<p>Creates and registers a new service in the framework.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> MyService <span class="token operator">=</span> Crane<span class="token punctuation">:</span><span class="token function">CreateService</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	Name <span class="token operator">=</span> <span class="token string">"MyService"</span><span class="token punctuation">,</span>
+	LoadOrder <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token keyword">function</span> MyService<span class="token punctuation">:</span><span class="token function">onInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token comment">-- Initialization logic</span>
+<span class="token keyword">end</span>
+
+<span class="token keyword">function</span> MyService<span class="token punctuation">:</span><span class="token function">onStart</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token comment">-- Startup logic</span>
+<span class="token keyword">end</span>
+</code></pre>
+<ul>
+  <li>options is not a table</li>
+  <li>options.Name is not a string or is empty</li>
+  <li>A service with the same name already exists</li>
+  <li>The framework has already been started</li>
+</ul>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Throws an error if:</td><td></td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetService"><code style="text-decoration:none">GetService</code><a href="#GetService" class="hash-link" aria-label="Direct link to GetService" title="Direct link to GetService">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L331"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->:</code><code class="green_DgR4">GetService</code><code>(</code><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Service">Service</a></code></div><div>
+<p>Retrieves a registered service by name.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> MyService <span class="token operator">=</span> Crane<span class="token punctuation">:</span><span class="token function">GetService</span><span class="token punctuation">(</span><span class="token string">"MyService"</span><span class="token punctuation">)</span>
+</code></pre>
+<ul>
+  <li>The framework has not been started</li>
+  <li>name is not a string or is empty</li>
+  <li>The service does not exist</li>
+</ul>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Throws an error if:</td><td></td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetPacket"><code style="text-decoration:none">GetPacket</code><a href="#GetPacket" class="hash-link" aria-label="Direct link to GetPacket" title="Direct link to GetPacket">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L353"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->:</code><code class="green_DgR4">GetPacket</code><code>(</code><code>name<!-- -->: </code><code class="blue_P4bS">PacketName</code><code>) → </code><code class="blue_P4bS">any</code></div><div>
+<p>Retrieves a registered packet by name.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> MyPacket <span class="token operator">=</span> Crane<span class="token punctuation">:</span><span class="token function">GetPacket</span><span class="token punctuation">(</span><span class="token string">"MyPacket"</span><span class="token punctuation">)</span>
+</code></pre>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Throws an error if the packet does not exist</td><td></td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="CreateComponent"><code style="text-decoration:none">CreateComponent</code><a href="#CreateComponent" class="hash-link" aria-label="Direct link to CreateComponent" title="Direct link to CreateComponent">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L385"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->:</code><code class="green_DgR4">CreateComponent</code><code>(</code><code>options<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#ComponentDef">ComponentDef</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#Component">Component</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code></div><div>
+<p>Creates and registers a new component in the framework.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> MyComponent <span class="token operator">=</span> Crane<span class="token punctuation">:</span><span class="token function">CreateComponent</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	Name <span class="token operator">=</span> <span class="token string">"MyComponent"</span><span class="token punctuation">,</span>
+	Tag <span class="token operator">=</span> <span class="token string">"MyComponentTag"</span><span class="token punctuation">,</span> <span class="token comment">-- Optional: enables automatic instantiation via CollectionService</span>
+	BaseComponent <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment">-- Optional: base table to extend</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token keyword">function</span> MyComponent<span class="token punctuation">:</span><span class="token function">onStart</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token comment">-- Component startup logic</span>
+	<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Component started on"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>instance<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+</code></pre>
+<ul>
+  <li>options is not a table</li>
+  <li>options.Name is not a string or is empty</li>
+  <li>A component with the same name already exists</li>
+  <li>The framework has already been started</li>
+  <li>options.Tag is provided but is not a string or already exists</li>
+</ul>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Throws an error if:</td><td></td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="AddComponent"><code style="text-decoration:none">AddComponent</code><a href="#AddComponent" class="hash-link" aria-label="Direct link to AddComponent" title="Direct link to AddComponent">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L426"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->:</code><code class="green_DgR4">AddComponent</code><code>(</code><div class="inset_uKQm"><div><code>instance<!-- -->: </code><code class="blue_P4bS">T</code><code class="op_lSLc"> &amp; </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code></div><div><code>name<!-- -->: </code><code class="blue_P4bS">string</code></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#Component">Component</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code></div><div>
+<p>Adds a component instance to a specific Roblox instance.</p>
+<p>This method creates a new instance of the component and attaches it to the provided instance. If the instance already has components, they will share the same component ID.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> part <span class="token operator">=</span> workspace<span class="token punctuation">:</span><span class="token function">FindFirstChild</span><span class="token punctuation">(</span><span class="token string">"MyPart"</span><span class="token punctuation">)</span>
+<span class="token keyword">local</span> component <span class="token operator">=</span> Crane<span class="token punctuation">:</span><span class="token function">AddComponent</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> <span class="token string">"MyComponent"</span><span class="token punctuation">)</span>
+</code></pre>
+<ul>
+  <li>The framework has not been started</li>
+  <li>name is not a string or is empty</li>
+  <li>The component does not exist</li>
+  <li>The component already exists on the instance</li>
+</ul>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Throws an error if:</td><td></td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="RemoveComponent"><code style="text-decoration:none">RemoveComponent</code><a href="#RemoveComponent" class="hash-link" aria-label="Direct link to RemoveComponent" title="Direct link to RemoveComponent">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/init.luau#L472"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Crane<!-- -->:</code><code class="green_DgR4">RemoveComponent</code><code>(</code><div class="inset_uKQm"><div><code>instance<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code></div><div><code>name<!-- -->: </code><code class="blue_P4bS">string</code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Removes a component instance from a specific Roblox instance.</p>
+<p>This method destroys the component and cleans up all associated data.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> part <span class="token operator">=</span> workspace<span class="token punctuation">:</span><span class="token function">FindFirstChild</span><span class="token punctuation">(</span><span class="token string">"MyPart"</span><span class="token punctuation">)</span>
+Crane<span class="token punctuation">:</span><span class="token function">RemoveComponent</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> <span class="token string">"MyComponent"</span><span class="token punctuation">)</span>
+</code></pre>
+<ul>
+  <li>The framework has not been started</li>
+  <li>name is not a string or is empty</li>
+  <li>The component does not exist</li>
+  <li>The component does not exist on the instance</li>
+</ul>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Throws an error if:</td><td></td></tr></tbody></table></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;Start&quot;,
+            &quot;desc&quot;: &quot;Starts the framework. This method initializes all services in order, then starts them, and finally sets up automatic component tracking for tagged instances.\n\n**Important:** Services and components must be created before starting the framework!\n\n```lua\n\tlocal Crane = require(PATH_TO_FRAMEWORK)\n\n\tCrane:AddServices({FOLDER, FOLDER...})\n\tCrane:AddComponents({FOLDER, FOLDER...})\n\n\tCrane:Start()\n```&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;Throws an error if the framework has already been started&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 154,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;AddServices&quot;,
+            &quot;desc&quot;: &quot;Scans the provided folders/instances for ModuleScripts containing services and automatically registers them in Crane.\n\nThe parameter `descendants` is optional and determines whether to search for services in descendants of the parent instances.\n\n```lua\nCrane:AddServices({\n\tgame:GetService(\&quot;ReplicatedStorage\&quot;):WaitForChild(\&quot;Services\&quot;),\n\tgame:GetService(\&quot;ReplicatedStorage\&quot;):WaitForChild(\&quot;Services\&quot;):WaitForChild(\&quot;SubServices\&quot;),\n})\n\n-- Search in descendants as well\nCrane:AddServices({\n\tgame:GetService(\&quot;ReplicatedStorage\&quot;):WaitForChild(\&quot;Services\&quot;),\n}, true)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;parents&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{Instance}&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;descendants&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{Service}&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;Throws an error if parents is not a table or is empty&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 215,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;AddComponents&quot;,
+            &quot;desc&quot;: &quot;Scans the provided folders/instances for ModuleScripts containing components and automatically registers them in Crane.\n\nThe parameter `descendants` is optional and determines whether to search for components in descendants of the parent instances.\n\n```lua\nCrane:AddComponents({\n\tgame:GetService(\&quot;ReplicatedStorage\&quot;):WaitForChild(\&quot;Components\&quot;),\n\tgame:GetService(\&quot;ReplicatedStorage\&quot;):WaitForChild(\&quot;Components\&quot;):WaitForChild(\&quot;SubComponents\&quot;),\n})\n\n-- Search in descendants as well\nCrane:AddComponents({\n\tgame:GetService(\&quot;ReplicatedStorage\&quot;):WaitForChild(\&quot;Components\&quot;),\n}, true)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;parents&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{Instance}&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;descendants&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{Component}&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;Throws an error if parents is not a table or is empty&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 257,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;CreateService&quot;,
+            &quot;desc&quot;: &quot;Creates and registers a new service in the framework.\n\n```lua\nlocal MyService = Crane:CreateService({\n\tName = \&quot;MyService\&quot;,\n\tLoadOrder = 1,\n})\n\nfunction MyService:onInit()\n\t-- Initialization logic\nend\n\nfunction MyService:onStart()\n\t-- Startup logic\nend\n```\n\n- options is not a table\n- options.Name is not a string or is empty\n- A service with the same name already exists\n- The framework has already been started&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;options&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;ServiceDef&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Service&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;Throws an error if:&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 303,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetService&quot;,
+            &quot;desc&quot;: &quot;Retrieves a registered service by name.\n\n```lua\nlocal MyService = Crane:GetService(\&quot;MyService\&quot;)\n```\n\n- The framework has not been started\n- name is not a string or is empty\n- The service does not exist&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Service&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;Throws an error if:&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 331,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetPacket&quot;,
+            &quot;desc&quot;: &quot;Retrieves a registered packet by name.\n\n```lua\nlocal MyPacket = Crane:GetPacket(\&quot;MyPacket\&quot;)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;PacketName&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;any&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;Throws an error if the packet does not exist&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 353,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;CreateComponent&quot;,
+            &quot;desc&quot;: &quot;Creates and registers a new component in the framework.\n\n```lua\nlocal MyComponent = Crane:CreateComponent({\n\tName = \&quot;MyComponent\&quot;,\n\tTag = \&quot;MyComponentTag\&quot;, -- Optional: enables automatic instantiation via CollectionService\n\tBaseComponent = {}, -- Optional: base table to extend\n})\n\nfunction MyComponent:onStart()\n\t-- Component startup logic\n\tprint(\&quot;Component started on\&quot;, self.instance)\nend\n```\n\n- options is not a table\n- options.Name is not a string or is empty\n- A component with the same name already exists\n- The framework has already been started\n- options.Tag is provided but is not a string or already exists&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;options&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;ComponentDef&lt;T&gt;&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Component&lt;T&gt;&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;Throws an error if:&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 385,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;AddComponent&quot;,
+            &quot;desc&quot;: &quot;Adds a component instance to a specific Roblox instance.\n\nThis method creates a new instance of the component and attaches it to the provided instance. If the instance already has components, they will share the same component ID.\n\n```lua\nlocal part = workspace:FindFirstChild(\&quot;MyPart\&quot;)\nlocal component = Crane:AddComponent(part, \&quot;MyComponent\&quot;)\n```\n\n- The framework has not been started\n- name is not a string or is empty\n- The component does not exist\n- The component already exists on the instance&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;instance&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;T &amp; Instance&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Component&lt;T&gt;&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;Throws an error if:&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 426,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;RemoveComponent&quot;,
+            &quot;desc&quot;: &quot;Removes a component instance from a specific Roblox instance.\n\nThis method destroys the component and cleans up all associated data.\n\n```lua\nlocal part = workspace:FindFirstChild(\&quot;MyPart\&quot;)\nCrane:RemoveComponent(part, \&quot;MyComponent\&quot;)\n```\n\n- The framework has not been started\n- name is not a string or is empty\n- The component does not exist\n- The component does not exist on the instance&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;instance&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Instance&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;Throws an error if:&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 472,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [
+        {
+            &quot;name&quot;: &quot;IsStarted&quot;,
+            &quot;desc&quot;: &quot;Flag indicating whether the framework has been started.&quot;,
+            &quot;lua_type&quot;: &quot;boolean&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 65,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Services&quot;,
+            &quot;desc&quot;: &quot;Dictionary of all registered services, indexed by service name.&quot;,
+            &quot;lua_type&quot;: &quot;{[string]: Service}&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 73,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Components&quot;,
+            &quot;desc&quot;: &quot;Dictionary of all registered components, indexed by component name.&quot;,
+            &quot;lua_type&quot;: &quot;{[string]: Component}&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 81,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;InstantiatedComponents&quot;,
+            &quot;desc&quot;: &quot;Dictionary mapping instance IDs to their instantiated components.&quot;,
+            &quot;lua_type&quot;: &quot;{[string]: {[string]: Component}}&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 89,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;TrackedTags&quot;,
+            &quot;desc&quot;: &quot;Dictionary mapping CollectionService tags to component names for automatic component instantiation.&quot;,
+            &quot;lua_type&quot;: &quot;{[string]: string}&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 97,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Signal&quot;,
+            &quot;desc&quot;: &quot;Signal library shortcut for convenience.&quot;,
+            &quot;lua_type&quot;: &quot;any&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 105,
+                &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+            }
+        }
+    ],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;Crane&quot;,
+    &quot;desc&quot;: &quot;The main Crane framework class. Provides a service and component system for Roblox development.\n\nCrane allows you to:\n- Create and manage services that initialize and start in a controlled order\n- Create and manage components that can be attached to Roblox instances\n- Automatically instantiate components based on CollectionService tags\n- Access utility libraries (Promise, Signal, Janitor) through convenient shortcuts&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 57,
+        &quot;path&quot;: &quot;src/shared/Crane/init.luau&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Components" class="table-of-contents__link toc-highlight">Components</a></li><li><a href="#InstantiatedComponents" class="table-of-contents__link toc-highlight">InstantiatedComponents</a></li><li><a href="#IsStarted" class="table-of-contents__link toc-highlight">IsStarted</a></li><li><a href="#Services" class="table-of-contents__link toc-highlight">Services</a></li><li><a href="#Signal" class="table-of-contents__link toc-highlight">Signal</a></li><li><a href="#TrackedTags" class="table-of-contents__link toc-highlight">TrackedTags</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#AddComponent" class="table-of-contents__link toc-highlight">:AddComponent</a></li><li><a href="#AddComponents" class="table-of-contents__link toc-highlight">:AddComponents</a></li><li><a href="#AddServices" class="table-of-contents__link toc-highlight">:AddServices</a></li><li><a href="#CreateComponent" class="table-of-contents__link toc-highlight">:CreateComponent</a></li><li><a href="#CreateService" class="table-of-contents__link toc-highlight">:CreateService</a></li><li><a href="#GetPacket" class="table-of-contents__link toc-highlight">:GetPacket</a></li><li><a href="#GetService" class="table-of-contents__link toc-highlight">:GetService</a></li><li><a href="#RemoveComponent" class="table-of-contents__link toc-highlight">:RemoveComponent</a></li><li><a href="#Start" class="table-of-contents__link toc-highlight">:Start</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 RebisterLog. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

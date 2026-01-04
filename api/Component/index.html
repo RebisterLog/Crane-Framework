@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">Component | Crane-Framework</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://RebisterLog.github.io/Crane-Framework/api/Component"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="Component | Crane-Framework"><meta data-rh="true" name="description" content="The Component module provides the base class for all components in the Crane framework.
+
+Components are reusable pieces of functionality that can be attached to Roblox instances.
+They support lifecycle callbacks, automatic cleanup, and can be automatically instantiated
+via CollectionService tags."><meta data-rh="true" property="og:description" content="The Component module provides the base class for all components in the Crane framework.
+
+Components are reusable pieces of functionality that can be attached to Roblox instances.
+They support lifecycle callbacks, automatic cleanup, and can be automatically instantiated
+via CollectionService tags."><link data-rh="true" rel="canonical" href="https://RebisterLog.github.io/Crane-Framework/api/Component"><link data-rh="true" rel="alternate" href="https://RebisterLog.github.io/Crane-Framework/api/Component" hreflang="en"><link data-rh="true" rel="alternate" href="https://RebisterLog.github.io/Crane-Framework/api/Component" hreflang="x-default"><link rel="stylesheet" href="/Crane-Framework/assets/css/styles.7a4bdbad.css">
+<script src="/Crane-Framework/assets/js/runtime~main.f97ab494.js" defer="defer"></script>
+<script src="/Crane-Framework/assets/js/main.4f16e1db.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,t("light"))}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Crane-Framework/"><b class="navbar__title text--truncate">Crane-Framework</b></a><a class="navbar__item navbar__link" href="/Crane-Framework/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Crane-Framework/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/RebisterLog/Crane-Framework" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Crane-Framework/api/Crane">Framework</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/Crane-Framework/api/Component">Classes</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/Crane-Framework/api/Component">​Component</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Crane-Framework/api/Service">​Service</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Crane-Framework/api/Signal">Utilities</a></div></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Component</span></h1><div class="luaClassTags_EipM"></div><div>
+<p>The Component module provides the base class for all components in the Crane framework.</p>
+<p>
+  Components are reusable pieces of functionality that can be attached to Roblox instances.
+  They support lifecycle callbacks, automatic cleanup, and can be automatically instantiated
+  via CollectionService tags.
+</p>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="types">Types<a href="#types" class="hash-link" aria-label="Direct link to Types" title="Direct link to Types">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="ComponentDef"><code style="text-decoration:none">ComponentDef</code><a href="#ComponentDef" class="hash-link" aria-label="Direct link to ComponentDef" title="Direct link to ComponentDef">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/Component.luau#L44"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">type</code> <code>ComponentDef<!-- --> = </code> <code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="blue_P4bS">=</code><code class="purple_ieR2">{</code><code class="blue_P4bS">any</code><code class="purple_ieR2">}</code><code class="blue_P4bS">?</code><code class="op_lSLc">&gt;</code><code class="purple_ieR2">{</code><div class="inset_uKQm"><code>Name<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Tag<!-- -->: </code><code class="blue_P4bS">string?</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>BaseComponent<!-- -->: </code><code class="blue_P4bS">T?</code></div><code class="purple_ieR2">}</code></div><div>
+<p>Configuration table for creating a new component.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="ComponentData"><code style="text-decoration:none">ComponentData</code><a href="#ComponentData" class="hash-link" aria-label="Direct link to ComponentData" title="Direct link to ComponentData">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/Component.luau#L74"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">type</code> <code>ComponentData<!-- --> = </code> <code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#ComponentDef">ComponentDef</a></code><code class="op_lSLc"> &amp; </code><code class="purple_ieR2">{</code><div class="inset_uKQm"><code>instance<!-- -->: </code><code class="blue_P4bS">T</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>Destroying<!-- -->: </code><code class="blue_P4bS">Signal.Signal</code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">nil</code><code class="op_lSLc">&gt;</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>onStart<!-- -->: </code><code class="green_DgR4">(</code><code class="yellow_QJap">(</code><code>self<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#Component">Component</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><code class="yellow_QJap">)</code><code class="yellow_QJap"> → </code><code class="yellow_QJap">(</code><code class="yellow_QJap">)</code><code class="green_DgR4">)</code><code class="blue_P4bS">?</code></div><code class="purple_ieR2">}</code></div><div>
+<p>Internal data structure for component instances.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Component"><code style="text-decoration:none">Component</code><a href="#Component" class="hash-link" aria-label="Direct link to Component" title="Direct link to Component">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/Component.luau#L106"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">type</code> <code>Component<!-- --> = </code> <code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="blue_P4bS">=</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="op_lSLc">&gt;</code><code class="blue_P4bS">setmetatable</code><code class="op_lSLc">&lt;</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#ComponentData">ComponentData</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><code class="blue_P4bS">,</code><code class="blue_P4bS">typeof(Component)</code><code class="op_lSLc">&gt;</code></div><div>
+<p>Represents a component instance in the Crane framework.</p>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/Component.luau#L124"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Component<!-- -->:</code><code class="green_DgR4">new</code><code>(</code><code>options<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#ComponentDef">ComponentDef</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#Component">Component</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code></div><div>
+<p>Creates a new component definition. This is typically called by <code>Crane:CreateComponent</code>.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> component <span class="token operator">=</span> Component<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	Name <span class="token operator">=</span> <span class="token string">"MyComponent"</span><span class="token punctuation">,</span>
+	Tag <span class="token operator">=</span> <span class="token string">"MyComponentTag"</span><span class="token punctuation">,</span>
+	BaseComponent <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Instantiate"><code style="text-decoration:none">Instantiate</code><a href="#Instantiate" class="hash-link" aria-label="Direct link to Instantiate" title="Direct link to Instantiate">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/Component.luau#L146"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Component<!-- -->:</code><code class="green_DgR4">Instantiate</code><code>(</code><code>instance<!-- -->: </code><code class="blue_P4bS">T</code><code class="op_lSLc"> &amp; </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Crane-Framework/api/Component#Component">Component</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code></div><div>
+<p>Creates a new instance of this component attached to a specific Roblox instance.</p>
+<p>This method is typically called by <code>Crane:AddComponent</code> and should not be called directly in most cases.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> componentInstance <span class="token operator">=</span> component<span class="token punctuation">:</span><span class="token function">Instantiate</span><span class="token punctuation">(</span>workspace<span class="token punctuation">.</span>Part<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Destroy"><code style="text-decoration:none">Destroy</code><a href="#Destroy" class="hash-link" aria-label="Direct link to Destroy" title="Direct link to Destroy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/Component.luau#L171"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Component<!-- -->:</code><code class="green_DgR4">Destroy</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Destroys the component instance, firing the Destroying signal and cleaning up resources.</p>
+<pre class="language-lua"><code class="language-lua">component<span class="token punctuation">:</span><span class="token function">Destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Start"><code style="text-decoration:none">Start</code><a href="#Start" class="hash-link" aria-label="Direct link to Start" title="Direct link to Start">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/RebisterLog/Crane-Framework/blob/master/src/shared/Crane/Component.luau#L185"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Component<!-- -->:</code><code class="green_DgR4">Start</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Starts the component by calling the <code>onStart</code> callback if it exists.</p>
+<p>This method is automatically called by <code>Crane:AddComponent</code> and should not be called manually in most cases.</p>
+<p>If <code>CRANE_DEBUGGING</code> is enabled, errors are caught and logged instead of being thrown.</p>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;new&quot;,
+            &quot;desc&quot;: &quot;Creates a new component definition. This is typically called by `Crane:CreateComponent`.\n\n```lua\nlocal component = Component.new({\n\tName = \&quot;MyComponent\&quot;,\n\tTag = \&quot;MyComponentTag\&quot;,\n\tBaseComponent = {},\n})\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;options&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;ComponentDef&lt;T&gt;&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Component&lt;T&gt;&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 124,
+                &quot;path&quot;: &quot;src/shared/Crane/Component.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Instantiate&quot;,
+            &quot;desc&quot;: &quot;Creates a new instance of this component attached to a specific Roblox instance.\n\nThis method is typically called by `Crane:AddComponent` and should not be called directly in most cases.\n\n```lua\nlocal componentInstance = component:Instantiate(workspace.Part)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;instance&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;T &amp; Instance&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Component&lt;T&gt;&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 146,
+                &quot;path&quot;: &quot;src/shared/Crane/Component.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Destroy&quot;,
+            &quot;desc&quot;: &quot;Destroys the component instance, firing the Destroying signal and cleaning up resources.\n\n```lua\ncomponent:Destroy()\n```&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 171,
+                &quot;path&quot;: &quot;src/shared/Crane/Component.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Start&quot;,
+            &quot;desc&quot;: &quot;Starts the component by calling the `onStart` callback if it exists.\n\nThis method is automatically called by `Crane:AddComponent` and should not be called manually in most cases.\n\nIf `CRANE_DEBUGGING` is enabled, errors are caught and logged instead of being thrown.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 185,
+                &quot;path&quot;: &quot;src/shared/Crane/Component.luau&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [],
+    &quot;types&quot;: [
+        {
+            &quot;name&quot;: &quot;ComponentDef&quot;,
+            &quot;desc&quot;: &quot;Configuration table for creating a new component.&quot;,
+            &quot;lua_type&quot;: &quot;&lt;T = {any}?&gt;{Name: string, Tag: string?, BaseComponent: T?}&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 44,
+                &quot;path&quot;: &quot;src/shared/Crane/Component.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;ComponentData&quot;,
+            &quot;desc&quot;: &quot;Internal data structure for component instances.&quot;,
+            &quot;lua_type&quot;: &quot;&lt;T&gt;ComponentDef &amp; {instance: T, Destroying: Signal.Signal&lt;nil&gt;, onStart: ((self: Component&lt;T&gt;) -&gt; ())?}&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 74,
+                &quot;path&quot;: &quot;src/shared/Crane/Component.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Component&quot;,
+            &quot;desc&quot;: &quot;Represents a component instance in the Crane framework.&quot;,
+            &quot;lua_type&quot;: &quot;&lt;T = Instance&gt;setmetatable&lt;ComponentData&lt;T&gt;, typeof(Component)&gt;&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 106,
+                &quot;path&quot;: &quot;src/shared/Crane/Component.luau&quot;
+            }
+        }
+    ],
+    &quot;name&quot;: &quot;Component&quot;,
+    &quot;desc&quot;: &quot;The Component module provides the base class for all components in the Crane framework.\n\nComponents are reusable pieces of functionality that can be attached to Roblox instances.\nThey support lifecycle callbacks, automatic cleanup, and can be automatically instantiated\nvia CollectionService tags.&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 33,
+        &quot;path&quot;: &quot;src/shared/Crane/Component.luau&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#Component" class="table-of-contents__link toc-highlight">Component</a></li><li><a href="#ComponentData" class="table-of-contents__link toc-highlight">ComponentData</a></li><li><a href="#ComponentDef" class="table-of-contents__link toc-highlight">ComponentDef</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#Destroy" class="table-of-contents__link toc-highlight">:Destroy</a></li><li><a href="#Instantiate" class="table-of-contents__link toc-highlight">:Instantiate</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">:new</a></li><li><a href="#Start" class="table-of-contents__link toc-highlight">:Start</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 RebisterLog. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
