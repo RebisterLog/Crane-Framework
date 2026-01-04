@@ -1,31 +1,538 @@
+--[[
+ ██████╗██████╗  █████╗ ███╗   ██╗███████╗
+██╔════╝██╔══██╗██╔══██╗████╗  ██║██╔════╝
+██║     ██████╔╝███████║██╔██╗ ██║█████╗
+██║     ██╔══██╗██╔══██║██║╚██╗██║██╔══╝
+╚██████╗██║  ██║██║  ██║██║ ╚████║███████╗
+╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝
+
+███████╗██████╗  █████╗ ███╗   ███╗███████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗
+██╔════╝██╔══██╗██╔══██╗████╗ ████║██╔════╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝
+█████╗  ██████╔╝███████║██╔████╔██║█████╗  ██║ █╗ ██║██║   ██║██████╔╝█████╔╝
+██╔══╝  ██╔══██╗██╔══██║██║╚██╔╝██║██╔══╝  ██║███╗██║██║   ██║██╔══██╗██╔═██╗
+██║     ██║  ██║██║  ██║██║ ╚═╝ ██║███████╗╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝ ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+by RebisterLog
+]]
+
 --!strict
-local Promise = require(script.packages.Promise)
+--!optimize 2
 
-local Crane = {}
+-- Requirements
+local CollectionService = game:GetService("CollectionService")
+local HttpService = game:GetService("HttpService")
 
-function Crane.Start()
-    --[[TODO:
-        0) load configs/check services/init events
-        1) init services
-        2) start services
-        3) Auto-init tagged components
-    ]]
-end
+local Packets = require(script.Packets)
+local Service = require(script.Service)
+local Component = require(script.Component)
 
+local Signal = require(script.packages.Signal)
 
---#region Services
-type ServiceOptions = {
-    Name: string,
-    LoadOrder: number,
+_G["CRANE_DEBUGGING"] = false
+_G["CRANE_TRACK_TAGS"] = true
+
+local COMPONENT_ID_ATTRIBUTE = "CraneComponentId"
+
+-- Types
+--[=[
+	Configuration table for creating a new service.
+
+	@type ServiceDef
+	@within Crane
+]=]
+export type ServiceDef = Service.ServiceDef
+
+--[=[
+	Configuration table for creating a new component.
+
+	@type ComponentDef
+	@within Crane
+]=]
+export type ComponentDef<T> = Component.ComponentDef<T>
+
+--[=[
+	Represents a service instance in the Crane framework.
+
+	@type Service
+	@within Crane
+]=]
+export type Service = Service.Service
+
+--[=[
+	Represents a component instance in the Crane framework.
+
+	@type Component
+	@within Crane
+]=]
+export type Component<T = Instance> = Component.Component<T>
+
+type PacketsType = typeof(Packets)
+type PacketName = keyof<PacketsType>
+
+--[=[
+	The main Crane framework class. Provides a service and component system for Roblox development.
+
+	Crane allows you to:
+	- Create and manage services that initialize and start in a controlled order
+	- Create and manage components that can be attached to Roblox instances
+	- Automatically instantiate components based on CollectionService tags
+	- Access utility libraries (Promise, Signal, Janitor) through convenient shortcuts
+
+	@class Crane
+]=]
+
+--[=[
+	Flag indicating whether the framework has been started.
+
+	@readonly
+	@prop IsStarted boolean
+	@within Crane
+]=]
+
+--[=[
+	Dictionary of all registered services, indexed by service name.
+
+	@readonly
+	@prop Services {[string]: Service}
+	@within Crane
+]=]
+
+--[=[
+	Dictionary of all registered components, indexed by component name.
+
+	@readonly
+	@prop Components {[string]: Component}
+	@within Crane
+]=]
+
+--[=[
+	Dictionary mapping instance IDs to their instantiated components.
+
+	@readonly
+	@prop InstantiatedComponents {[string]: {[string]: Component}}
+	@within Crane
+]=]
+
+--[=[
+	Dictionary mapping CollectionService tags to component names for automatic component instantiation.
+
+	@readonly
+	@prop TrackedTags {[string]: string}
+	@within Crane
+]=]
+
+--[=[
+	Promise library shortcut for convenience.
+
+	@readonly
+	@prop Promise any
+	@within Crane
+]=]
+
+--[=[
+	Signal library shortcut for convenience.
+
+	@readonly
+	@prop Signal any
+	@within Crane
+]=]
+
+--[=[
+	Janitor library shortcut for convenience.
+
+	@readonly
+	@prop Janitor any
+	@within Crane
+]=]
+
+local Crane = {
+	-- Properties of framework
+	IsStarted = false,
+	Services = {},
+	Components = {},
+	TrackedTags = {},
+	InstantiatedComponents = {},
+
+	-- Shortcuts for libraries
+	Signal = Signal,
 }
-function Crane:CreateService()
-    
+Crane.__index = Crane
+Crane.__tostring = "CraneFramework"
+
+--[=[
+	Internal data structure for the Crane framework instance.
+
+	@type CraneData
+	@within Crane
+]=]
+type CraneData = {
+	IsStarted: boolean,
+	Services: {[string]: Service.Service},
+	Components: {[string]: Component.Component},
+	TrackedTags: {[string]: string},
+	InstantiatedComponents: {[string]: {[string]: Component.Component}},
+}
+
+--[=[
+	The main Crane framework type.
+
+	@type Crane
+	@within Crane
+]=]
+export type Crane = setmetatable<CraneData, typeof(Crane)>
+
+--[[ Crane framework's plan:
+	1) init services
+	2) start services
+	3) Auto-init tagged components
+]]
+
+--[=[
+	Starts the framework. This method initializes all services in order, then starts them, and finally sets up automatic component tracking for tagged instances.
+
+	**Important:** Services and components must be created before starting the framework!
+
+	```lua
+		local Crane = require(PATH_TO_FRAMEWORK)
+
+		Crane:AddServices({FOLDER, FOLDER...})
+		Crane:AddComponents({FOLDER, FOLDER...})
+
+		Crane:Start()
+	```
+
+	@method Start
+	@within Crane
+	@error Throws an error if the framework has already been started
+]=]
+function Crane.Start(self: Crane)
+	if self.IsStarted then error("Crane is already started") end
+
+	table.sort(self.Services :: {Service.Service}, function(a: Service.Service, b: Service.Service)
+		return (a.LoadOrder or 0) < (b.LoadOrder or 0)
+	end)
+
+	-- Init all services
+	for i, service in self.Services do
+		service:Init()
+	end
+
+	-- Starting all services after initialization
+	for i, service in self.Services do
+		service:Start()
+	end
+
+	self.IsStarted = true
+
+	if _G["CRANE_TRACK_TAGS"] then
+		for tag, componentName in self.TrackedTags do
+			CollectionService:GetInstanceAddedSignal(tag):Connect(function(instance)
+				local componentName = self.TrackedTags[tag]
+				if componentName then
+					self:AddComponent(instance, componentName)
+				end
+			end)
+
+			local tagged = CollectionService:GetTagged(tag)
+
+			for i, instance in tagged do
+				self:AddComponent(instance, componentName)
+			end
+		end
+	end
 end
 
-function Crane:GetService(name: string)
-    
+--[=[
+	Scans the provided folders/instances for ModuleScripts containing services and automatically registers them in Crane.
+
+	The parameter `descendants` is optional and determines whether to search for services in descendants of the parent instances.
+
+	```lua
+	Crane:AddServices({
+		game:GetService("ReplicatedStorage"):WaitForChild("Services"),
+		game:GetService("ReplicatedStorage"):WaitForChild("Services"):WaitForChild("SubServices"),
+	})
+
+	-- Search in descendants as well
+	Crane:AddServices({
+		game:GetService("ReplicatedStorage"):WaitForChild("Services"),
+	}, true)
+	```
+
+	@method AddServices
+	@param parents {Instance}
+	@param descendants boolean?
+	@return {Service}
+	@within Crane
+	@error Throws an error if parents is not a table or is empty
+]=]
+function Crane.AddServices(self: Crane, parents: {Instance}, descendants: boolean?): {Service.Service}
+	assert(typeof(parents) == "table", `Parents must be a table, got {type(parents)}`)
+	assert(#parents > 0, `Parents must be a non-empty table`)
+
+	local addedServices = {}
+
+	for i, parent in parents do
+		for i, module in (descendants and parent:GetDescendants() or parent:GetChildren()):: {Instance} do
+			if module:IsA("ModuleScript") then
+				local service = require(module) :: Service.Service
+				table.insert(addedServices, service)
+			end
+		end
+	end
+
+	return addedServices
 end
 
+--[=[
+	Scans the provided folders/instances for ModuleScripts containing components and automatically registers them in Crane.
 
+	The parameter `descendants` is optional and determines whether to search for components in descendants of the parent instances.
 
-return Crane
+	```lua
+	Crane:AddComponents({
+		game:GetService("ReplicatedStorage"):WaitForChild("Components"),
+		game:GetService("ReplicatedStorage"):WaitForChild("Components"):WaitForChild("SubComponents"),
+	})
+
+	-- Search in descendants as well
+	Crane:AddComponents({
+		game:GetService("ReplicatedStorage"):WaitForChild("Components"),
+	}, true)
+	```
+
+	@method AddComponents
+	@param parents {Instance}
+	@param descendants boolean?
+	@return {Component}
+	@within Crane
+	@error Throws an error if parents is not a table or is empty
+]=]
+function Crane.AddComponents(self: Crane, parents: {Instance}, descendants: boolean?): {Component.Component}
+	assert(typeof(parents) == "table", `Parents must be a table, got {type(parents)}`)
+	assert(#parents > 0, `Parents must be a non-empty table`)
+
+	local addedComponents = {}
+
+	for i, parent in parents do
+		for i, instance in (descendants and parent:GetDescendants() or parent:GetChildren()):: {Instance} do
+			if instance:IsA("ModuleScript") then
+				local component = require(instance) :: Component.Component
+				table.insert(addedComponents, component)
+			end
+		end
+	end
+
+	return addedComponents
+end
+
+--[=[
+	Creates and registers a new service in the framework.
+
+	```lua
+	local MyService = Crane:CreateService({
+		Name = "MyService",
+		LoadOrder = 1,
+	})
+
+	function MyService:onInit()
+		-- Initialization logic
+	end
+
+	function MyService:onStart()
+		-- Startup logic
+	end
+	```
+
+	@method CreateService
+	@param options ServiceDef
+	@return Service
+	@within Crane
+	@error Throws an error if:
+	- options is not a table
+	- options.Name is not a string or is empty
+	- A service with the same name already exists
+	- The framework has already been started
+]=]
+function Crane.CreateService(self: Crane, options: ServiceDef): Service.Service
+	assert(type(options) == "table", `Service must be a table, got {type(options)}`)
+	assert(type(options.Name) == "string", `Service.Name must be a string; got {type(options.Name)}`)
+	assert(#options.Name > 0, "Service.Name must be a non-empty string")
+	assert(not self.Services[options.Name], `Service "{options.Name}" already exists`)
+	assert(not self.IsStarted, `Services cannot be created after calling "Crane:Start()"`)
+
+	local service = Service.new(options)
+	self.Services[options.Name] = service
+	return service
+end
+
+--[=[
+	Retrieves a registered service by name.
+
+	```lua
+	local MyService = Crane:GetService("MyService")
+	```
+
+	@method GetService
+	@param name string
+	@return Service
+	@within Crane
+	@error Throws an error if:
+	- The framework has not been started
+	- name is not a string or is empty
+	- The service does not exist
+]=]
+function Crane.GetService(self: Crane, name: string)
+	assert(self.IsStarted, `Crane must be started before getting a service`)
+	assert(type(name) == "string", `Service name must be a string, got {type(name)}`)
+	assert(#name > 0, "Service name must be a non-empty string")
+	assert(self.Services[name], `Could not find service "{name}"`)
+
+	return self.Services[name]
+end
+
+--[=[
+	Retrieves a registered packet by name.
+
+	```lua
+	local MyPacket = Crane:GetPacket("MyPacket")
+	```
+
+	@method GetPacket
+	@param name PacketName
+	@return any
+	@within Crane
+	@error Throws an error if the packet does not exist
+]=]
+function Crane.GetPacket(self: Crane, name: PacketName)
+	assert(Packets[name], `Packet "{name}" doesn't exists`)
+	return Packets[name] :: index<typeof(Packets), PacketName>
+end
+
+--[=[
+	Creates and registers a new component in the framework.
+
+	```lua
+	local MyComponent = Crane:CreateComponent({
+		Name = "MyComponent",
+		Tag = "MyComponentTag", -- Optional: enables automatic instantiation via CollectionService
+		BaseComponent = {}, -- Optional: base table to extend
+	})
+
+	function MyComponent:onStart()
+		-- Component startup logic
+		print("Component started on", self.instance)
+	end
+	```
+
+	@method CreateComponent
+	@param options ComponentDef<T>
+	@return Component<T>
+	@within Crane
+	@error Throws an error if:
+	- options is not a table
+	- options.Name is not a string or is empty
+	- A component with the same name already exists
+	- The framework has already been started
+	- options.Tag is provided but is not a string or already exists
+]=]
+function Crane.CreateComponent<T>(self: Crane, options: ComponentDef<T>)
+	assert(type(options) == "table", `Component must be a table, got {type(options)}`)
+	assert(type(options.Name) == "string", `Component.Name must be a string; got {type(options.Name)}`)
+	assert(#options.Name > 0, "Component.Name must be a non-empty string")
+	assert(not self.Components[options.Name], `Component "{options.Name}" already exists`)
+	assert(not self.IsStarted, `Components cannot be created after calling "Crane:Start()"`)
+
+	local component = Component.new(options) :: Component.Component & T
+	self.Components[options.Name] = component
+
+	if _G["CRANE_TRACK_TAGS"] and options.Tag then
+		assert(typeof(options.Tag) == "string", `Component.Tag must be a string; got {type(options.Tag)}`)
+		assert(not table.find(self.TrackedTags, options.Tag), `Component.Tag "{options.Tag}" already exists`)
+
+		self.TrackedTags[options.Tag] = options.Name
+	end
+
+	return component
+end
+
+--[=[
+	Adds a component instance to a specific Roblox instance.
+
+	This method creates a new instance of the component and attaches it to the provided instance. If the instance already has components, they will share the same component ID.
+
+	```lua
+	local part = workspace:FindFirstChild("MyPart")
+	local component = Crane:AddComponent(part, "MyComponent")
+	```
+
+	@method AddComponent
+	@param instance T & Instance
+	@param name string
+	@return Component<T>
+	@within Crane
+	@error Throws an error if:
+	- The framework has not been started
+	- name is not a string or is empty
+	- The component does not exist
+	- The component already exists on the instance
+]=]
+function Crane.AddComponent<T>(self: Crane, instance: T & Instance, name: string)
+	assert(self.IsStarted, `Cannot add components before calling "Crane:Start()"`)
+	assert(type(name) == "string", `Component name must be a string, got {type(name)}`)
+	assert(#name > 0, "Component name must be a non-empty string")
+	assert(self.Components[name], `Component "{name}" does not exist`)
+
+	local componentId = instance:GetAttribute(COMPONENT_ID_ATTRIBUTE) :: string?
+		or HttpService:GenerateGUID(false)
+
+	self.InstantiatedComponents[componentId] = self.InstantiatedComponents[componentId] or {}
+	assert(not self.InstantiatedComponents[componentId][name], `Component "{name}" already exists on instance "{instance:GetFullName()}"`)
+
+	instance:SetAttribute(COMPONENT_ID_ATTRIBUTE, componentId)
+
+	local component: Component.Component<T> = self.Components[name]:Instantiate(instance)
+	self.InstantiatedComponents[componentId][name] = component
+
+	component.Destroying:Connect(function()
+		self.InstantiatedComponents[componentId][name] = nil
+	end)
+
+	component:Start()
+
+	return component :: Component.Component<T>
+end
+
+--[=[
+	Removes a component instance from a specific Roblox instance.
+
+	This method destroys the component and cleans up all associated data.
+
+	```lua
+	local part = workspace:FindFirstChild("MyPart")
+	Crane:RemoveComponent(part, "MyComponent")
+	```
+
+	@method RemoveComponent
+	@param instance Instance
+	@param name string
+	@within Crane
+	@error Throws an error if:
+	- The framework has not been started
+	- name is not a string or is empty
+	- The component does not exist
+	- The component does not exist on the instance
+]=]
+function Crane.RemoveComponent(self: Crane, instance: Instance, name: string)
+	assert(self.IsStarted, `Cannot remove components before calling "Crane:Start()"`)
+	assert(type(name) == "string", `Component name must be a string, got {type(name)}`)
+	assert(#name > 0, "Component name must be a non-empty string")
+	assert(self.Components[name], `Component "{name}" does not exist`)
+
+	local component = self.InstantiatedComponents[instance:GetAttribute(COMPONENT_ID_ATTRIBUTE) :: string][name]
+	assert(component, `Component "{name}" does not exist on instance "{instance:GetFullName()}"`)
+
+	component:Destroy()
+end
+
+return Crane :: Crane
