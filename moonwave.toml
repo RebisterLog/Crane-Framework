@@ -1,0 +1,15 @@
+[[classOrder]]
+section = "Framework"
+classes = ["Crane"]
+
+[[classOrder]]
+section = "Classes"
+classes = ["Component", "Service"]
+
+[[classOrder]]
+section = "Utilities"
+classes = ["Signal", "Utils"]
+
+[[classOrder]]
+section = "Examples"
+classes = []
