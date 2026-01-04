@@ -31,7 +31,7 @@ by RebisterLog
 --[=[
 	Log level types for the Log function.
 
-	@type LogLevel
+	@type LogLevel "info" | "warn" | "error"
 	@within Utils
 ]=]
 type LogLevel = "info" | "warn" | "error"

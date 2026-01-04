@@ -37,7 +37,7 @@ Service.__tostring = "CraneService"
 --[=[
 	Configuration table for creating a new service.
 
-	@type ServiceDef
+	@type ServiceDef {Name: string, LoadOrder: number?}
 	@within Service
 ]=]
 export type ServiceDef = {
@@ -60,7 +60,10 @@ export type ServiceDef = {
 --[=[
 	Internal data structure for service instances.
 
-	@type ServiceData
+	@type ServiceData ServiceDef & {
+		onInit: ((self: Service) -> ())?;
+		onStart: ((self: Service) -> ())?;
+	}
 	@within Service
 ]=]
 export type ServiceData = ServiceDef & {
@@ -80,12 +83,6 @@ export type ServiceData = ServiceDef & {
 	onStart: ((self: Service) -> ())?;
 }
 
---[=[
-	Represents a service instance in the Crane framework.
-
-	@type Service
-	@within Service
-]=]
 export type Service = setmetatable<ServiceData, typeof(Service)>
 
 

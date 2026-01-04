@@ -34,36 +34,10 @@ _G["CRANE_TRACK_TAGS"] = true
 local COMPONENT_ID_ATTRIBUTE = "CraneComponentId"
 
 -- Types
---[=[
-	Configuration table for creating a new service.
-
-	@type ServiceDef
-	@within Crane
-]=]
 export type ServiceDef = Service.ServiceDef
-
---[=[
-	Configuration table for creating a new component.
-
-	@type ComponentDef
-	@within Crane
-]=]
 export type ComponentDef<T> = Component.ComponentDef<T>
 
---[=[
-	Represents a service instance in the Crane framework.
-
-	@type Service
-	@within Crane
-]=]
 export type Service = Service.Service
-
---[=[
-	Represents a component instance in the Crane framework.
-
-	@type Component
-	@within Crane
-]=]
 export type Component<T = Instance> = Component.Component<T>
 
 type PacketsType = typeof(Packets)
@@ -122,26 +96,10 @@ type PacketName = keyof<PacketsType>
 ]=]
 
 --[=[
-	Promise library shortcut for convenience.
-
-	@readonly
-	@prop Promise any
-	@within Crane
-]=]
-
---[=[
 	Signal library shortcut for convenience.
 
 	@readonly
 	@prop Signal any
-	@within Crane
-]=]
-
---[=[
-	Janitor library shortcut for convenience.
-
-	@readonly
-	@prop Janitor any
 	@within Crane
 ]=]
 
@@ -159,12 +117,6 @@ local Crane = {
 Crane.__index = Crane
 Crane.__tostring = "CraneFramework"
 
---[=[
-	Internal data structure for the Crane framework instance.
-
-	@type CraneData
-	@within Crane
-]=]
 type CraneData = {
 	IsStarted: boolean,
 	Services: {[string]: Service.Service},
@@ -173,12 +125,6 @@ type CraneData = {
 	InstantiatedComponents: {[string]: {[string]: Component.Component}},
 }
 
---[=[
-	The main Crane framework type.
-
-	@type Crane
-	@within Crane
-]=]
 export type Crane = setmetatable<CraneData, typeof(Crane)>
 
 --[[ Crane framework's plan:

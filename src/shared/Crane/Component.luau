@@ -38,7 +38,7 @@ Component.__tostring = "CraneComponent"
 --[=[
 	Configuration table for creating a new component.
 
-	@type ComponentDef
+	@type ComponentDef <T = {any}?>{Name: string, Tag: string?, BaseComponent: T?}
 	@within Component
 ]=]
 export type ComponentDef<T = {any}?> = {
@@ -68,7 +68,7 @@ export type ComponentDef<T = {any}?> = {
 --[=[
 	Internal data structure for component instances.
 
-	@type ComponentData
+	@type ComponentData <T>ComponentDef & {instance: T, Destroying: Signal.Signal<nil>, onStart: ((self: Component<T>) -> ())?}
 	@within Component
 ]=]
 export type ComponentData<T> = ComponentDef & {
@@ -100,7 +100,7 @@ export type ComponentData<T> = ComponentDef & {
 --[=[
 	Represents a component instance in the Crane framework.
 
-	@type Component
+	@type Component <T = Instance>setmetatable<ComponentData<T>, typeof(Component)>
 	@within Component
 ]=]
 export type Component<T = Instance> = setmetatable<ComponentData<T>, typeof(Component)>
@@ -150,7 +150,7 @@ function Component.Instantiate<T>(self: Component<T>, instance: T & Instance)
 	}, {
 		__index = self
 	})
-	
+
 	instance.Destroying:Connect(function()
 		self.Destroying:Fire()
 	end)
