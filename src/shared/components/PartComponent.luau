@@ -11,7 +11,7 @@ local PartComponent: Crane.Component<BasePart> = Crane:CreateComponent({
 })
 
 function PartComponent.onStart(self: Crane.Component<BasePart>)
-	print(self.instance.Position)
+	print(`PartComponent position: {self.instance.Position}`)
 end
 
 return PartComponent

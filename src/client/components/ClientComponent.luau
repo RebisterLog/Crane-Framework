@@ -1,6 +1,6 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Crane = require(ReplicatedStorage:WaitForChild("shared"):WaitForChild("Crane"))
-local SharedComponent = require(ReplicatedStorage:WaitForChild("shared"):WaitForChild("shared-components"):WaitForChild("SharedComponent"))
+local SharedComponent = require(ReplicatedStorage:WaitForChild("shared"):WaitForChild("components"):WaitForChild("SharedComponent"))
 
 local ClientComponent = Crane:CreateComponent({
     Name = "ClientComponent",

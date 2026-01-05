@@ -2,20 +2,20 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Crane = require(ReplicatedStorage.shared.Crane)
 
-local PlayersService: Crane.Service = Crane:CreateService({
-	Name = "PlayersService",
+local PlayersService = Crane:CreateService({
+	Name = "PlayersService" :: "PlayersService",
 })
 PlayersService["Players"] = {}
 
-function PlayersService:onStart()
+function PlayersService.onStart(self: typeof(PlayersService))
 	Players.PlayerAdded:Connect(function(player)
 		local playerComponent = Crane:AddComponent(player, "PlayerComponent")
-		PlayersService.Players[player] = playerComponent
+		self.Players[player] = playerComponent
 	end)
 end
 
 function PlayersService:GetPlayer(player: Player)
-	return PlayersService.Players[player]:: Crane.Component<Player>?
+	return PlayersService.Players[player]
 end
 
 return PlayersService

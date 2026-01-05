@@ -34,10 +34,10 @@ _G["CRANE_TRACK_TAGS"] = true
 local COMPONENT_ID_ATTRIBUTE = "CraneComponentId"
 
 -- Types
-export type ServiceDef = Service.ServiceDef
+export type ServiceDef<A, T> = Service.ServiceDef<A, T>
 export type ComponentDef<T> = Component.ComponentDef<T>
 
-export type Service = Service.Service
+export type Service<A, T> = Service.Service<A, T>
 export type Component<T = Instance> = Component.Component<T>
 
 type PacketsType = typeof(Packets)
@@ -119,7 +119,7 @@ Crane.__tostring = "CraneFramework"
 
 type CraneData = {
 	IsStarted: boolean,
-	Services: {[string]: Service.Service},
+	Services: {[string]: Service.Service<string, number>},
 	Components: {[string]: Component.Component},
 	TrackedTags: {[string]: string},
 	InstantiatedComponents: {[string]: {[string]: Component.Component}},
@@ -154,7 +154,7 @@ export type Crane = setmetatable<CraneData, typeof(Crane)>
 function Crane.Start(self: Crane)
 	if self.IsStarted then error("Crane is already started") end
 
-	table.sort(self.Services :: {Service.Service}, function(a: Service.Service, b: Service.Service)
+	table.sort(self.Services :: {Service.Service<string, number>}, function(a: Service.Service<string, number>, b: Service.Service<string, number>)
 		return (a.LoadOrder or 0) < (b.LoadOrder or 0)
 	end)
 
@@ -212,7 +212,7 @@ end
 	@within Crane
 	@error Throws an error if parents is not a table or is empty
 ]=]
-function Crane.AddServices(self: Crane, parents: {Instance}, descendants: boolean?): {Service.Service}
+function Crane.AddServices(self: Crane, parents: {Instance}, descendants: boolean?): {Service.Service<string, number>}
 	assert(typeof(parents) == "table", `Parents must be a table, got {type(parents)}`)
 	assert(#parents > 0, `Parents must be a non-empty table`)
 
@@ -221,7 +221,7 @@ function Crane.AddServices(self: Crane, parents: {Instance}, descendants: boolea
 	for i, parent in parents do
 		for i, module in (descendants and parent:GetDescendants() or parent:GetChildren()):: {Instance} do
 			if module:IsA("ModuleScript") then
-				local service = require(module) :: Service.Service
+				local service = require(module) :: Service.Service<string, number>
 				table.insert(addedServices, service)
 			end
 		end
@@ -300,7 +300,7 @@ end
 	- A service with the same name already exists
 	- The framework has already been started
 ]=]
-function Crane.CreateService(self: Crane, options: ServiceDef): Service.Service
+function Crane.CreateService<A, T>(self: Crane, options: ServiceDef<A, T>)
 	assert(type(options) == "table", `Service must be a table, got {type(options)}`)
 	assert(type(options.Name) == "string", `Service.Name must be a string; got {type(options.Name)}`)
 	assert(#options.Name > 0, "Service.Name must be a non-empty string")
@@ -309,7 +309,7 @@ function Crane.CreateService(self: Crane, options: ServiceDef): Service.Service
 
 	local service = Service.new(options)
 	self.Services[options.Name] = service
-	return service
+	return service :: Service.Service<A, T>
 end
 
 --[=[
@@ -351,8 +351,8 @@ end
 	@error Throws an error if the packet does not exist
 ]=]
 function Crane.GetPacket(self: Crane, name: PacketName)
-	assert(Packets[name], `Packet "{name}" doesn't exists`)
-	return Packets[name] :: index<typeof(Packets), PacketName>
+	assert((Packets::any)[name], `Packet "{name}" doesn't exists`)
+	return (Packets::any)[name] :: index<typeof(Packets), PacketName>
 end
 
 --[=[

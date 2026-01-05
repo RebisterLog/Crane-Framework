@@ -40,21 +40,21 @@ Service.__tostring = "CraneService"
 	@type ServiceDef {Name: string, LoadOrder: number?}
 	@within Service
 ]=]
-export type ServiceDef = {
+export type ServiceDef<A = string, T = number> = {
 	--[=[
 		The unique name of the service.
 
 		@prop Name string
 		@within ServiceDef
 	]=]
-    Name: string,
+    Name: A,
 	--[=[
 		Optional load order for service initialization. Lower values are initialized first.
 
 		@prop LoadOrder number?
 		@within ServiceDef
 	]=]
-    LoadOrder: number?,
+    LoadOrder: T?,
 }
 
 --[=[
@@ -66,25 +66,24 @@ export type ServiceDef = {
 	}
 	@within Service
 ]=]
-export type ServiceData = ServiceDef & {
+export type ServiceData<A, T> = ServiceDef<A, T> & {
 	--[=[
 		Optional callback function that is called when the service is initialized.
 
 		@prop onInit ((self: Service) -> ())?
 		@within ServiceData
 	]=]
-	onInit: ((self: Service) -> ())?;
+	onInit: ((self: Service<A, T>) -> ())?;
 	--[=[
 		Optional callback function that is called when the service starts.
 
 		@prop onStart ((self: Service) -> ())?
 		@within ServiceData
 	]=]
-	onStart: ((self: Service) -> ())?;
+	onStart: ((self: Service<A, T>) -> ())?;
 }
 
-export type Service = setmetatable<ServiceData, typeof(Service)>
-
+export type Service<A, T> = setmetatable<ServiceData<A, T>, typeof(Service)>
 
 --[=[
 	Creates a new service definition. This is typically called by `Crane:CreateService`.
@@ -101,12 +100,12 @@ export type Service = setmetatable<ServiceData, typeof(Service)>
 	@return Service
 	@within Service
 ]=]
-function Service.new(options: ServiceDef)
+function Service.new<A, T>(options: ServiceDef<A, T>)
 	local self = {}
 	self.Name = options.Name
 	self.LoadOrder = options.LoadOrder or 0
 
-	return setmetatable(self, Service) :: Service
+	return setmetatable(self, Service) :: Service<A, T>
 end
 
 --[=[
@@ -126,7 +125,7 @@ end
 	@method Init
 	@within Service
 ]=]
-function Service.Init(self: Service)
+function Service.Init<A, T>(self: Service<A, T>)
 	if not self.onInit then return end
 
 	if _G["CRANE_DEBUGGING"] then
@@ -159,7 +158,7 @@ end
 	@method Start
 	@within Service
 ]=]
-function Service.Start(self: Service)
+function Service.Start<A, T>(self: Service<A, T>)
 	if not self.onStart then return end
 
 	if _G["CRANE_DEBUGGING"] then
